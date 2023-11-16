@@ -4,111 +4,196 @@
 
 {% block content %}
 
-  <div class="columns is-mobile">
-  
 
-  <div class="column is-one-quarter">
-  <aside class="menu">
-    <h1 class="title is-2">
-    Messages
-    </h1>
-  <ul style="overflow-y: scroll; height: 500px" class="menu-list">
-
-{% for message in messages %}
-
-<a class="{% if active_direct == message.user.username %}is-active{% endif %}" href="{% url 'directs' message.user.username %}">
-<div class="box">
-  <article class="media">
-    <div class="media-left">
-      <figure class="image is-64x64">
-          {% if message.user.profile.picture %}
-            <img src="{{ message.user.profile.picture.url }}" alt="Placeholder image">
-          {% else %}
-            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-          {% endif %}
-      </figure>
-    </div>
-    <div class="media-content">
-
-      <div class="content">
-        <p>
-          <strong>{{ message.user.profile.first_name }} {{ message.user.profile.last_name }}</strong> <small>@{{ message.user.username }}</small>
-        </p>
-      </div>
-
-      <div class="content">
-        {% if message.unread %}
-        <p style="font-weight: bold; color: red;">
-          <i class="material-icons">mark_chat_unread</i> {{ message.unread }}
-        </p>
-        {% endif %}        
-      </div>
-
-    </div>
-  </article>
-</div>
-</a>
-{% endfor %}
-
-  </ul>
-  </aside>
-<br>
-<a href="{% url 'usersearch' %}" class="button is-success">New message</a>
-
-</div>
-
-<div class="column">
-
-<div style="overflow-y: scroll; height: 500px">
-
-{% for direct in directs %}
-<div class="box">
-  <article class="media">
-    <div class="media-left">
-    </div>
-    <div class="media-content">
-      <div class="content">
-        <p>
-          <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong> <small>@{{ direct.sender.username }}</small> on: <strong><small>{{ direct.date|date:'N d G:i'}}</small></strong>
-        </p>
-        {{ direct.body }} 
-      </div>
-    </div>
-  </article>
-</div>
-{% endfor %}
+    <div class="card">
+        <div class="card-content has-text-centered">
+            <div class="columns is-mobile">
+                <div class="column is-one-quarter">
+                    <aside class="menu">
+                        <h1 class="title is-2">
+                            Messages
+                        </h1>
+                        <ul class="menu-list" style="overflow-y: scroll; height: 500px;">
+                            {% for message in messages %}
+                                <a class="{% if active_direct == message.user.username %}is-active{% endif %}"
+                                   href="{% url 'directs' message.user.username %}">
+                                    <div class="box">
+                                        <article class="media">
+                                            <div class="media-left">
+                                                <figure class="image is-64x64">
+                                                    {% if message.user.profile.picture %}
+                                                        <img src="{{ message.user.profile.picture.url }}"
+                                                             alt="User Image">
+                                                    {% else %}
+                                                        <img src="{% static 'img/default-profile.jpg' %}"
+                                                             alt="Default Profile Image">
+                                                    {% endif %}
+                                                </figure>
+                                            </div>
+                                            <div class="media-content">
+                                                <div class="content">
+                                                    <p>
+                                                        <strong>{{ message.user.profile.first_name }} {{ message.user.profile.last_name }}</strong>
+                                                        <small>@{{ message.user.username }}</small>
+                                                    </p>
+                                                </div>
+                                                <div class="content">
+                                                    {% if message.unread %}
+                                                        <p style="font-weight: bold; color: red;">
+                                                            <i class="material-icons">mark_chat_unread</i> {{ message.unread }}
+                                                        </p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </ul>
+                        <br>
+                        <a href="{% url 'usersearch' %}" class="button is-success">New message</a>
+                    </aside>
+                </div>
 
 
-</div>
+                <div class="column">
+                    <div style="overflow-y: scroll; height: 500px;">
+                        {% for direct in directs %}
+                            <div class="box">
+                                <article class="media">
+                                    <div class="media-left">
+                                        <!-- You can add sender's profile image here if needed -->
+                                    </div>
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <p>
+                                                <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong>
+                                                <small>@{{ direct.sender.username }}</small> on: <strong><small>
+                                                {{ direct.date|date:'N d G:i'}}</small></strong>
+                                            </p>
+                                            {{ direct.body }}
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        {% endfor %}
+                    </div>
 
+                    <form role="form" method="POST" action="{% url 'send_direct' %}">
+                        {% csrf_token %}
+                        <article class="media">
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img src="https://bulma.io/images/placeholders/128x128.png" alt="Placeholder Image">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <input type="hidden" name="to_user" value="{{ active_direct }}">
+                                <div class="field">
+                                    <p class="control">
+                                        <textarea class="textarea" name="body"
+                                                  placeholder="Add a comment..."></textarea>
+                                    </p>
+                                </div>
+                                <nav class="level">
+                                    <div class="level-left">
+                                        <div class="level-item">
+                                            <button type="submit" name="action" class="button is-info">Send</button>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </article>
+                    </form>
+                </div>
+            </div>
 
-<form role="form" method="POST" action="{% url 'send_direct' %}">
-  {% csrf_token %}
-<article class="media">
-  <figure class="media-left">
-    <p class="image is-64x64">
-      <img src="https://bulma.io/images/placeholders/128x128.png">
-    </p>
-  </figure>
-  <div class="media-content">
-    <input type="hidden" name="to_user" value="{{ active_direct }}">
-    <div class="field">
-      <p class="control">
-        <textarea class="textarea" name="body" placeholder="Add a comment..."></textarea>
-      </p>
-    </div>
-    <nav class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <button type="submit" name="action" class="button is-info">Send</buttom>
         </div>
-      </div>
-    </nav>
-  </div>
-</article>
-</form>
+    </div>
 
-</div>
-</div>
+    <style>
 
+        .card {
+            background-color: rgba(255, 255, 255, 0.7);
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            color: darkcyan;
+            width: 1200px;
+            opacity: 0.9;
+            margin-top: 120px;
+            height: 750px;
+        }
+
+
+        body {
+            background: url("https://i.pinimg.com/originals/68/42/a9/6842a9e871dcdf7c42258b292b96110e.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: auto; /* Змінено на автоматичний розмір */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .box {
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            width: 500px;
+        }
+
+        .media-left {
+
+        }
+
+        .media {
+            width: 700px;
+        }
+
+        /* Add your custom styles here */
+        .menu-list {
+            padding: 10px;
+        }
+
+        .box {
+            margin-bottom: 10px;
+        }
+
+        .media-content {
+            flex-grow: 1;
+        }
+
+        .level {
+            width: 500px;
+        }
+
+        .textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Додайте це до вашого існуючого CSS */
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3); /* Колір фону треку скролбару */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: darkcyan; /* Колір самого скролбару */
+  border-radius: 6px;
+}
+
+/* Заокруглення кінців стрілок на кінці скролбару */
+body::-webkit-scrollbar-button {
+  display: none;
+}
+
+    </style>
 {% endblock %}

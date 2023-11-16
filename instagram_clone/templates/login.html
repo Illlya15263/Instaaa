@@ -1,92 +1,143 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>BlendOFF</title>
     <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-  </head>
-  <body>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+
+        .logotipe {
+            position: relative;
+            top: -130px;
+            left: -400px;
+        }
+
+        body {
+            background: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d75cae91-229a-4c0f-bd7c-8f683decca88/d96o8ag-9aebb023-c992-4bf9-8364-506b2bb301b9.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2Q3NWNhZTkxLTIyOWEtNGMwZi1iZDdjLThmNjgzZGVjY2E4OFwvZDk2bzhhZy05YWViYjAyMy1jOTkyLTRiZjktODM2NC01MDZiMmJiMzAxYjkuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.g5N0WT_Tf1vZyVx-td7UCkdnOQfkZfug9R_IhyS9B2Q");
+            background-size: cover; /* або background-size: contain; */
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Pacifico', cursive;
+        }
+
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: darkcyan;
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
 
 
-  <section class="section">
+        .button.is-success {
+            background-color: darkcyan; /* або будь-який інший голубий колір, який ви хочете використовувати */
+            color: white; /* колір тексту на кнопці */
+        }
+
+        .button.is-info {
+            background-color: darkcyan; /* або будь-який інший голубий колір, який ви хочете використовувати */
+            color: white; /* колір тексту на кнопці */
+        }
+
+        .card {
+            background-color: darkorange;
+            background-size: cover;
+            background-position: center;
+            color: rgba(255, 255, 255, 0.7);
+            width: 1000px;
+            opacity: 0.9;
+        }
+
+        .card-content {
+            background-color: rgba(255, 255, 255, 0.7); /* Фон для контенту з прозорістю */
+            padding: 20px; /* Додатковий відступ для контенту */
+            border-radius: 10px; /* Закруглені кути для контенту */
+        }
+    </style>
+
+</head>
+<body>
+
+<section class="section">
     <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-half">
 
-<div class="columns is-mobile has-text-centered">
-  <div class="column is-half is-offset-one-quarter">
+                <div class="logotipe">
+                    <img src="{% static 'img/BlendOFF_logo.png' %}" width="200" height="200">
+                </div>
 
-    <div class="card">
-    <div class="card-content">
+                <div class="card">
+                    <div class="card-content has-text-centered">
+                        <form method="post" action="" role="form">
+                            {% csrf_token %}
+                            <h3 class="title is-3">Login</h3>
 
-          <form method="post" action="" role="form">
-          {% csrf_token %}
-           <h3 class="title is-3">Login</h3>
+                            <div class="field">
+                                <label class="label">Username</label>
+                                <div class="control has-icons-left">
+                                    {{ form.username }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
 
-            <div class="field">
-              <p class="control has-icons-left">
-              <label class="label is-medium">Username</label>
-                {{ form.username }}
-                <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
-        </p>
-          </div>
+                            <div class="field">
+                                <label class="label">Password</label>
+                                <div class="control has-icons-left">
+                                    {{ form.password }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
 
-              <div class="field">
-              <p class="control has-icons-left">
-              <label class="label is-medium">Password</label>
-                {{ form.password }}
-                <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
-        </p>
-          </div>
+                            {% if form.errors %}
+                                <div class="notification is-danger">
+                                    Your username or password did not match.
+                                </div>
+                            {% endif %}
 
-      {% if form.errors %}
-      <div class="row">
-        <div class="col s12">
-          <span style="color: red; font-weight: bold;">Your username or password did not match.</span>
+                            <div class="field">
+                                <div class="control">
+                                    <button type="submit" value="login" class="button is-success is-fullwidth">
+                                        Login
+                                    </button>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="next" value="{{ next }}">
+
+                            <p>
+                                <a href="{% url 'signup' %}" class="button is-info">
+                                    Create an account
+                                </a>
+                            </p>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
-      </div>
-      {% endif %}
-
-      <div class="field">
-      <p class="control">
-        <button type="submit" value="login" class="button is-success">
-          Login
-        </button>
-      </p>
     </div>
+</section>
 
-    <input type="hidden" name="next" value="{{ next }}">
-
-
-
-    <a href="{% url 'signup' %}" class="button is-info">Create an account</a>
-
-
-  </form>
-
-
-
-
-    </div>
-    </div>
-    
-
-
-  </div>
-</div>
-
-
-    </div>
-  </section>
-
-  </body>
+</body>
 </html>
-

@@ -2,120 +2,186 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>BlendOFF</title>
     <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-  </head>
-  <body>
+          rel="stylesheet">
 
-  <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="">
-      <img src="{% static 'img/instagram_black.png' %}" width="64" height="64">
-    </a>
+    <style>
 
-    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
+        .navbar {
+            background-color: darkcyan;
+            width: 100%;
+            height: 60px;
+            opacity: 0.9;
+            justify-content: center;
+            align-items: center;
+            padding: 35px;
+            border-radius: 10px;
+            transition: background-color 0.5s ease; /* Анімація зміни кольору */
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
 
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-      <a href="{% url 'index' %}" class="navbar-item">
-        <i class="material-icons">home</i>
-        Home
-      </a>
+        .navbar:hover {
+            background-color: #207dbc; /* Змінюємо колір при наведенні */
+        }
 
-      <a class="navbar-item">
-        <i class="material-icons">explore</i>
-        Explore
-      </a>
+        .navbar-item {
+            margin: 0 15px;
+            transition: color 0.3s ease; /* Анімація зміни кольору тексту */
+        }
 
-      <a href="{% url 'show-notifications' %}" class="navbar-item">
-        <i class="material-icons">notifications</i>
-        Notifications
-        {% if count_notifications %}
-          <span class="badge">{{ count_notifications }}</span>
-        {% endif %}
-      </a>
+        .navbar-item:hover {
+            color: white; /* Змінюємо колір тексту при наведенні */
+            transform: scale(1.1); /* Збільшуємо розмір при наведенні */
+        }
 
-      <a href="{% url 'inbox' %}" class="navbar-item">
-        <i class="material-icons">inbox</i>
-        Inbox
-        {% if directs_count %}
-        <span class="badge">{{ directs_count }}</span>
-        {% endif %}
-      </a>
+        .navbar {
+            background-color: darkcyan;
+            width: 1400px;
+            top: 25px;
+            height: 60px;
+            opacity: 0.9;
+            justify-content: center;
+            align-items: center;
+            padding: 35px;
+            border-radius: 10px;
+        }
 
-      <a href="{% url 'profile' request.user %}" class="navbar-item">
-        <i class="material-icons">face</i>
-        Profile - <strong>{{ request.user }}</strong>
-      </a>
+        body {
+            background: url("https://i.pinimg.com/originals/68/42/a9/6842a9e871dcdf7c42258b292b96110e.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            font-family: 'Pacifico', cursive;
+            flex-direction: column;
+            align-items: center;
+        }
 
-        <a href="{% url 'newpost' %}" class="navbar-item">
-          <i style="color: green;" class="material-icons">perm_media</i>
-          <strong>New Post</strong>
-        </a>
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
 
-        <a href="{% url 'newstory' %}" class="navbar-item">
-          <i style="color: green;" class="material-icons">photo_filter</i>
-          <strong>New Story</strong>
-        </a>
+        body::-webkit-scrollbar-thumb {
+            background-color: darkcyan;
+            border-radius: 10px;
+        }
 
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          Settings
-        </a>
+        body::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
 
-        <div class="navbar-dropdown">
-          <a class="navbar-item">
-            Change password
-          </a>
-          <a class="navbar-item">
-            Contact
-          </a>
-          <a class="navbar-item">
-            Report an issue
-          </a>
-          <hr class="navbar-divider">
-          <a href="{% url 'logout' %}" class="navbar-item">
-            Log out
-          </a>
-        </div>
-      </div>
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: darkcyan;
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <img src="{% static 'img/BlendOFF.mainlog.png' %}" width="55" height="100">
     </div>
 
-  </div>
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a href="{% url 'index' %}" class="navbar-item">
+                <i class="material-icons">home</i>
+                Home
+            </a>
+
+            <a class="navbar-item">
+                <i class="material-icons">explore</i>
+                Explore
+            </a>
+
+            <a href="{% url 'show-notifications' %}" class="navbar-item">
+                <i class="material-icons">notifications</i>
+                Notifications
+                {% if count_notifications %}
+                    <span class="badge">{{ count_notifications }}</span>
+                {% endif %}
+            </a>
+
+            <a href="{% url 'inbox' %}" class="navbar-item">
+                <i class="material-icons">inbox</i>
+                Inbox
+                {% if directs_count %}
+                    <span class="badge">{{ directs_count }}</span>
+                {% endif %}
+            </a>
+
+            <a href="{% url 'profile' request.user %}" class="navbar-item">
+                <i class="material-icons">face</i>
+                Profile - <strong>{{ request.user }}</strong>
+            </a>
+
+            <a href="{% url 'newpost' %}" class="navbar-item">
+                <i class="material-icons">perm_media</i>
+                <strong>New Post</strong>
+            </a>
+
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    Settings
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        Change password
+                    </a>
+                    <a class="navbar-item">
+                        Contact
+                    </a>
+                    <a class="navbar-item">
+                        Report an issue
+                    </a>
+                    <hr class="navbar-divider">
+                    <a href="{% url 'logout' %}" class="navbar-item">
+                        Log out
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </nav>
 
-      {% block banner %}
-      {% endblock %}
+{% block banner %}
+{% endblock %}
 
-  <section class="section">
-    <div class="container">
+{% block content %}
+{% endblock %}
 
-      {% block content %}
-      {% endblock %}
+{% block pagination %}
+{% endblock %}
 
+</div>
+</section>
+</body>
 
-      {% block pagination %}
-      {% endblock %}
-
-    </div>
-  </section>
-
-
-
-  </body>
- 
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="{% static 'js/init.js' %}"></script>
-  <script src="{% static 'js/slider.js' %}"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{% static 'js/init.js' %}"></script>
+<script src="{% static 'js/slider.js' %}"></script>
 </html>
